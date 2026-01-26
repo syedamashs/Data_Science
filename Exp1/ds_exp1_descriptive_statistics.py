@@ -14,41 +14,22 @@ import pandas as pd
 df = pd.read_csv("coin_Bitcoin.csv")
 df.head()
 
-# Measures of Central Tendency
+df.select_dtypes(include='number').mean().to_frame().T
 
-print("Mean Close Price:", df['Close'].mean())
-print("Median Close Price:", df['Close'].median())
-print("Mode Close Price:", df['Close'].mode()[0])
+df.select_dtypes(include='number').median().to_frame().T
 
-# Measures of Dispersion (Spread)
+df.select_dtypes(include='number').mode().iloc[0].to_frame().T
 
-print("Range:", df['Close'].max() - df['Close'].min())
-print("Variance:", df['Close'].var())
-print("Standard Deviation:", df['Close'].std())
+(df.select_dtypes(include='number').max() -
+ df.select_dtypes(include='number').min()).to_frame().T
 
-Q1 = df['Close'].quantile(0.25)
-Q3 = df['Close'].quantile(0.75)
-print("Interquartile Range (IQR):", Q3 - Q1)
+df.select_dtypes(include='number').var().to_frame().T
 
-# Shape of the Distribution
-skew = df['Close'].skew()
-kurt = df['Close'].kurtosis()
+df.select_dtypes(include='number').std().to_frame().T
 
-print("Skewness:", skew)
-print("Kurtosis:", kurt)
+(df.select_dtypes(include='number').quantile(0.75) -
+ df.select_dtypes(include='number').quantile(0.25)).to_frame().T
 
-# Interpretation of Skewness
-if skew > 0:
-    print("Distribution is Positively Skewed (Right Skewed)")
-elif skew < 0:
-    print("Distribution is Negatively Skewed (Left Skewed)")
-else:
-    print("Distribution is Symmetric")
+df.select_dtypes(include='number').skew().to_frame().T
 
-# Interpretation of Kurtosis
-if kurt > 0:
-    print("Distribution is Leptokurtic (Highly Peaked)")
-elif kurt < 0:
-    print("Distribution is Platykurtic (Flat Distribution)")
-else:
-    print("Distribution is Mesokurtic (Normal Bell Curve)")
+df.select_dtypes(include='number').kurtosis().to_frame().T
